@@ -15,12 +15,27 @@ public class DepartamentoController {
     private DepartamentoService departamentoService;
 
     @GetMapping(value = "listar")
-    public List<Departamento> departamentos() {
+    public List<Departamento> Listaepartamentos() {
         return departamentoService.listaDepartamentos();
+    }
+
+    @GetMapping(value = "buscar/{id}")
+    public Departamento buscaDepartamento(@PathVariable("id") Integer id) {
+        return departamentoService.buscaDepartamento(id);
     }
 
     @PostMapping(value = "salvar")
     public Departamento salvaDepartamento(@RequestBody Departamento departamento) {
         return departamentoService.salvar(departamento);
+    }
+
+    @PutMapping(value = "atualizar")
+    public Departamento atualizaDepartamento(@RequestBody Departamento departamento) {
+        return departamentoService.atualiza(departamento);
+    }
+
+    @DeleteMapping(value = "excluir")
+    public void excluirDepartamento(Integer codigoDepartamento) {
+        departamentoService.excluir(codigoDepartamento);
     }
 }
