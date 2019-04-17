@@ -26,6 +26,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
@@ -50,19 +51,15 @@ public class DepartamentoControllerTest {
     public void deveriaApresentarTodosDepartamentos() throws Exception {
         List<Departamento> departamentosMock = departamentos();
 
-        Departamento departamentoUm = new Departamento();
-        departamentoUm.setCodigo(1);
-        departamentoUm.setDepartamento("Eletrônicos");
-
-        Departamento departamentoDois = new Departamento();
-        departamentoDois.setCodigo(2);
-        departamentoDois.setDepartamento("Padaria");
-
-        when(departamentoServiceMock.listaDepartamentos()).thenReturn(Arrays.asList(departamentoUm, departamentoDois));
+        when(departamentoServiceMock.listaDepartamentos()).thenReturn(departamentosMock);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/departamento/listar").accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(2)))
-            .andExpect(jsonPath("$[0].codigo", is(1)));
+            .andExpect(jsonPath("$[0].codigo", is(1))).andExpect(jsonPath("$[0].departamento", is("Eletrônicos")))
+            .andExpect(jsonPath("$[1].codigo", is(2))).andExpect(jsonPath("$[1].departamento", is("Matinais")))
+        ;
+
     }
 
     private List<Departamento> departamentos() {
@@ -72,7 +69,7 @@ public class DepartamentoControllerTest {
 
         Departamento departamentoDois = new Departamento();
         departamentoDois.setCodigo(2);
-        departamentoDois.setDepartamento("Utensilios");
+        departamentoDois.setDepartamento("Matinais");
 
         List<Departamento> departamentos = new ArrayList<>();
         departamentos.add(departamentoUm);
