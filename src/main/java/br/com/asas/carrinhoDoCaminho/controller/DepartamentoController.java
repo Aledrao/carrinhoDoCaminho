@@ -1,10 +1,14 @@
 package br.com.asas.carrinhoDoCaminho.controller;
 
+import br.com.asas.carrinhoDoCaminho.bean.ResponseBean;
 import br.com.asas.carrinhoDoCaminho.model.Departamento;
 import br.com.asas.carrinhoDoCaminho.service.DepartamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,8 +29,11 @@ public class DepartamentoController {
     }
 
     @PostMapping(value = "salvar")
-    public Departamento salvaDepartamento(@RequestBody Departamento departamento) {
-        return departamentoService.salvar(departamento);
+    public ResponseEntity<?> salvaDepartamento(@Valid @RequestBody Departamento departamento, Errors errors) {
+        if(errors.hasErrors()) {
+            return ResponseEntity.ok(new ResponseBean(400, errors.getFieldError().getDefaultMessage()));
+        }
+        return ResponseEntity.ok(new ResponseBean(600, "Departamento salvo com sucesso", departamento));
     }
 
     @PutMapping(value = "atualizar")

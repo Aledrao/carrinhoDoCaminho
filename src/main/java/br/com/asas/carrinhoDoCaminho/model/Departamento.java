@@ -3,6 +3,7 @@ package br.com.asas.carrinhoDoCaminho.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
@@ -15,6 +16,7 @@ public class Departamento implements Serializable {
     @Column(name = "cod_departamento")
     private Integer codigo;
 
+    @NotEmpty(message="Informe o nome do departamento.")
     @Column(name = "nome_departamento", nullable = false, unique = true)
     private String departamento;
 
