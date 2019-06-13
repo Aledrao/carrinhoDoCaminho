@@ -11,7 +11,7 @@ import java.util.List;
 public class DepartamentoService {
 
     @Autowired
-    DepartamentoRepository departamentoRepository;
+    private DepartamentoRepository departamentoRepository;
 
     public Departamento buscaDepartamento(Integer codigoDepartamento) {
         return departamentoRepository.getOne(codigoDepartamento);

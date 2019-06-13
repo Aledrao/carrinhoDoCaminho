@@ -19,8 +19,12 @@ public class DepartamentoController {
     private DepartamentoService departamentoService;
 
     @GetMapping(value = "listar")
-    public List<Departamento> Listaepartamentos() {
-        return departamentoService.listaDepartamentos();
+    public ResponseEntity<?> Listaepartamentos() {
+        List<Departamento> departamentos = departamentoService.listaDepartamentos();
+        if(departamentos == null || departamentos.isEmpty()) {
+            return ResponseEntity.ok(new ResponseBean(400, "Não há departamentos há departamentos cadastrados."));
+        }
+        return ResponseEntity.ok(new ResponseBean(600, "Departamentos encontrados com sucesso.", departamentos));
     }
 
     @GetMapping(value = "buscar/{id}")
@@ -33,16 +37,21 @@ public class DepartamentoController {
         if(errors.hasErrors()) {
             return ResponseEntity.ok(new ResponseBean(400, errors.getFieldError().getDefaultMessage()));
         }
-        return ResponseEntity.ok(new ResponseBean(600, "Departamento salvo com sucesso", departamento));
+        Departamento departamentoSalvo = departamentoService.salvar(departamento);
+        return ResponseEntity.ok(new ResponseBean(600, "Departamento salvo com sucesso", departamentoSalvo));
     }
 
     @PutMapping(value = "atualizar")
-    public Departamento atualizaDepartamento(@RequestBody Departamento departamento) {
-        return departamentoService.atualiza(departamento);
+    public ResponseEntity<?> atualizaDepartamento(@Valid @RequestBody Departamento departamento, Errors errors) {
+        if(errors.hasErrors()) {
+            return ResponseEntity.ok(new ResponseBean(400, errors.getFieldError().getDefaultMessage()));
+        }
+        Departamento departamentoAtualizado = departamentoService.atualiza(departamento);
+        return ResponseEntity.ok(new ResponseBean(600, "Departamento atualizado com sucesso", departamentoAtualizado));
     }
 
-    @DeleteMapping(value = "excluir")
-    public void excluirDepartamento(Integer codigoDepartamento) {
+    @DeleteMapping(value = "excluir/{id}")
+    public void excluirDepartamento(@PathVariable("id") Integer codigoDepartamento) {
         departamentoService.excluir(codigoDepartamento);
     }
 }

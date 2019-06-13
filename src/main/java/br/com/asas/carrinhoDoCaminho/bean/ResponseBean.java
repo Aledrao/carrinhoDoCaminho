@@ -1,6 +1,10 @@
 package br.com.asas.carrinhoDoCaminho.bean;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
+
 
 public class ResponseBean {
     public ResponseBean(int codigo, String mensagem) {
