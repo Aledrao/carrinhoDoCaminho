@@ -1,6 +1,7 @@
 package br.com.asas.carrinhoDoCaminho.controller;
 
-import br.com.asas.carrinhoDoCaminho.bean.ResponseBean;
+import br.com.asas.carrinhoDoCaminho.VO.DepartamentoLIstVO;
+import br.com.asas.carrinhoDoCaminho.VO.DepartamentoVO;
 import br.com.asas.carrinhoDoCaminho.model.Departamento;
 import br.com.asas.carrinhoDoCaminho.service.DepartamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class DepartamentoController {
         List<Departamento> departamentos = departamentoService.listaDepartamentos();
         log.info("Acessou  listar departamentos");
         if(departamentos == null || departamentos.isEmpty()) {
-            return ResponseEntity.ok(new ResponseBean(400, "Não há departamentos há departamentos cadastrados."));
+            return ResponseEntity.ok(new DepartamentoVO(400, "Não há departamentos há departamentos cadastrados."));
         }
-        return ResponseEntity.ok(new ResponseBean(600, "Departamentos encontrados com sucesso.", departamentos));
+        return ResponseEntity.ok(new DepartamentoLIstVO(600, "Departamentos encontrados com sucesso.", departamentos));
     }
 
     @GetMapping(value = "buscar/{id}")
@@ -41,25 +42,31 @@ public class DepartamentoController {
     public ResponseEntity<?> salvaDepartamento(@Valid @RequestBody Departamento departamento, Errors errors) {
         log.info("Acessando salvar departamento - Departamento: " +departamento.toString());
         if(errors.hasErrors()) {
-            return ResponseEntity.ok(new ResponseBean(400, errors.getFieldError().getDefaultMessage()));
+            return ResponseEntity.ok(new DepartamentoVO(400, errors.getFieldError().getDefaultMessage()));
         }
         Departamento departamentoSalvo = departamentoService.salvar(departamento);
-        return ResponseEntity.ok(new ResponseBean(600, "Departamento salvo com sucesso", departamentoSalvo));
+        return ResponseEntity.ok(new DepartamentoVO(600, "Deparmtamento salvo com sucesso.", departamento));
     }
 
     @PutMapping(value = "atualizar")
     public ResponseEntity<?> atualizaDepartamento(@Valid @RequestBody Departamento departamento, Errors errors) {
         log.info("Acessou atualizar departamento - departamento: " +departamento.toString());
         if(errors.hasErrors()) {
-            return ResponseEntity.ok(new ResponseBean(400, errors.getFieldError().getDefaultMessage()));
+            return ResponseEntity.ok(new DepartamentoVO(400, errors.getFieldError().getDefaultMessage()));
         }
         Departamento departamentoAtualizado = departamentoService.atualiza(departamento);
-        return ResponseEntity.ok(new ResponseBean(600, "Departamento atualizado com sucesso", departamentoAtualizado));
+        return ResponseEntity.ok(new DepartamentoVO(600, "Departamento atualizado com sucesso.", departamento));
     }
 
     @DeleteMapping(value = "excluir/{id}")
-    public void excluirDepartamento(@PathVariable("id") Integer codigoDepartamento) {
+    public ResponseEntity<?> excluirDepartamento(@PathVariable("id") Integer codigoDepartamento) {
         log.info("Excluir departamento - código departamento: " + codigoDepartamento);
-        departamentoService.excluir(codigoDepartamento);
+        Departamento departamento = departamentoService.buscaDepartamento(codigoDepartamento);
+        if(departamento != null) {
+            departamentoService.excluir(codigoDepartamento);
+            return ResponseEntity.ok(new DepartamentoVO(600, "Departamento excluido com sucesso."));
+        } else {
+            return ResponseEntity.ok(new DepartamentoVO(400, "O departamento a ser excluido não foi encontrado."));
+        }
     }
 }
