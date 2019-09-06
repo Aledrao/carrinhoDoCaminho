@@ -2,6 +2,7 @@ package br.com.asas.carrinhoDoCaminho.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "unidade_medida")
@@ -51,5 +52,31 @@ public class UnidadeMedida {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    @Override
+    public String toString() {
+        return "UnidadeMedida{" +
+                "codigo=" + codigo +
+                ", sigla='" + sigla + '\'' +
+                ", nomeUnidadeMedida='" + nomeUnidadeMedida + '\'' +
+                ", produtos=" + produtos +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UnidadeMedida that = (UnidadeMedida) o;
+        return Objects.equals(codigo, that.codigo) &&
+                Objects.equals(sigla, that.sigla) &&
+                Objects.equals(nomeUnidadeMedida, that.nomeUnidadeMedida) &&
+                Objects.equals(produtos, that.produtos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo, sigla, nomeUnidadeMedida, produtos);
     }
 }

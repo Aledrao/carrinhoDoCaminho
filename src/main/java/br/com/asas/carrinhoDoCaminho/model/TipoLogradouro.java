@@ -1,6 +1,7 @@
 package br.com.asas.carrinhoDoCaminho.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tipo_logradouro")
@@ -28,5 +29,27 @@ public class TipoLogradouro {
 
     public void setTipoLogradouro(String tipoLogradouro) {
         this.tipoLogradouro = tipoLogradouro;
+    }
+
+    @Override
+    public String toString() {
+        return "TipoLogradouro{" +
+                "codigo=" + codigo +
+                ", tipoLogradouro='" + tipoLogradouro + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TipoLogradouro that = (TipoLogradouro) o;
+        return Objects.equals(codigo, that.codigo) &&
+                Objects.equals(tipoLogradouro, that.tipoLogradouro);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo, tipoLogradouro);
     }
 }

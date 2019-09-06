@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "departamento")
@@ -42,5 +43,19 @@ public class Departamento implements Serializable {
                 "codigo=" + codigo +
                 ", departamento='" + departamento + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Departamento that = (Departamento) o;
+        return Objects.equals(codigo, that.codigo) &&
+                Objects.equals(departamento, that.departamento);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo, departamento);
     }
 }

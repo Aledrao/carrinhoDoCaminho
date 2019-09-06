@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "estado")
@@ -30,5 +31,27 @@ public class Estado {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return "Estado{" +
+                "sigla='" + sigla + '\'' +
+                ", nome='" + nome + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Estado estado = (Estado) o;
+        return Objects.equals(sigla, estado.sigla) &&
+                Objects.equals(nome, estado.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sigla, nome);
     }
 }

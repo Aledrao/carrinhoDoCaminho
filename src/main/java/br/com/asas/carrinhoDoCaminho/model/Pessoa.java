@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "pessoa")
@@ -115,5 +116,41 @@ public class Pessoa {
 
     public void setCompartilhado(List<Carrinho> compartilhado) {
         this.compartilhado = compartilhado;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "codigo=" + codigo +
+                ", nome='" + nome + '\'' +
+                ", apelido='" + apelido + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", dataCadastro=" + dataCadastro +
+                ", carrinhos=" + carrinhos +
+                ", compartilhado=" + compartilhado +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pessoa pessoa = (Pessoa) o;
+        return Objects.equals(codigo, pessoa.codigo) &&
+                Objects.equals(nome, pessoa.nome) &&
+                Objects.equals(apelido, pessoa.apelido) &&
+                Objects.equals(email, pessoa.email) &&
+                Objects.equals(senha, pessoa.senha) &&
+                Objects.equals(dataNascimento, pessoa.dataNascimento) &&
+                Objects.equals(dataCadastro, pessoa.dataCadastro) &&
+                Objects.equals(carrinhos, pessoa.carrinhos) &&
+                Objects.equals(compartilhado, pessoa.compartilhado);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo, nome, apelido, email, senha, dataNascimento, dataCadastro, carrinhos, compartilhado);
     }
 }

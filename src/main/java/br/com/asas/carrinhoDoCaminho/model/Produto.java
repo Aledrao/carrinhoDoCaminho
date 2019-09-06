@@ -2,6 +2,7 @@ package br.com.asas.carrinhoDoCaminho.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "produto")
@@ -110,5 +111,41 @@ public class Produto {
 
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "codigo=" + codigo +
+                ", nome='" + nome + '\'' +
+                ", codigoBarras=" + codigoBarras +
+                ", quantidade=" + quantidade +
+                ", unidadeMedida=" + unidadeMedida +
+                ", valor=" + valor +
+                ", fabricante=" + fabricante +
+                ", tipoProduto=" + tipoProduto +
+                ", departamento=" + departamento +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return Double.compare(produto.quantidade, quantidade) == 0 &&
+                Objects.equals(codigo, produto.codigo) &&
+                Objects.equals(nome, produto.nome) &&
+                Objects.equals(codigoBarras, produto.codigoBarras) &&
+                Objects.equals(unidadeMedida, produto.unidadeMedida) &&
+                Objects.equals(valor, produto.valor) &&
+                Objects.equals(fabricante, produto.fabricante) &&
+                Objects.equals(tipoProduto, produto.tipoProduto) &&
+                Objects.equals(departamento, produto.departamento);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo, nome, codigoBarras, quantidade, unidadeMedida, valor, fabricante, tipoProduto, departamento);
     }
 }

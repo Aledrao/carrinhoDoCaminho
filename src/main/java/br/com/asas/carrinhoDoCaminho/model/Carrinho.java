@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "carrinho")
@@ -90,5 +91,37 @@ public class Carrinho {
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    @Override
+    public String toString() {
+        return "Carrinho{" +
+                "codigo=" + codigo +
+                ", itens=" + itens +
+                ", totalItens=" + totalItens +
+                ", responsavel=" + responsavel +
+                ", valorTotal=" + valorTotal +
+                ", compartilhado=" + compartilhado +
+                ", dataCriacao=" + dataCriacao +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Carrinho carrinho = (Carrinho) o;
+        return Objects.equals(codigo, carrinho.codigo) &&
+                Objects.equals(itens, carrinho.itens) &&
+                Objects.equals(totalItens, carrinho.totalItens) &&
+                Objects.equals(responsavel, carrinho.responsavel) &&
+                Objects.equals(valorTotal, carrinho.valorTotal) &&
+                Objects.equals(compartilhado, carrinho.compartilhado) &&
+                Objects.equals(dataCriacao, carrinho.dataCriacao);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo, itens, totalItens, responsavel, valorTotal, compartilhado, dataCriacao);
     }
 }

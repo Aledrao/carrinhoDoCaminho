@@ -1,6 +1,7 @@
 package br.com.asas.carrinhoDoCaminho.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "logradouro")
@@ -117,5 +118,43 @@ public class Logradouro {
 
     public void setCepSufixo(int cepSufixo) {
         this.cepSufixo = cepSufixo;
+    }
+
+    @Override
+    public String toString() {
+        return "Logradouro{" +
+                "codigo=" + codigo +
+                ", tipoLogradouro=" + tipoLogradouro +
+                ", nome='" + nome + '\'' +
+                ", numero='" + numero + '\'' +
+                ", complemento='" + complemento + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", estado=" + estado +
+                ", cepPrefixo=" + cepPrefixo +
+                ", cepSufixo=" + cepSufixo +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Logradouro that = (Logradouro) o;
+        return cepPrefixo == that.cepPrefixo &&
+                cepSufixo == that.cepSufixo &&
+                Objects.equals(codigo, that.codigo) &&
+                Objects.equals(tipoLogradouro, that.tipoLogradouro) &&
+                Objects.equals(nome, that.nome) &&
+                Objects.equals(numero, that.numero) &&
+                Objects.equals(complemento, that.complemento) &&
+                Objects.equals(bairro, that.bairro) &&
+                Objects.equals(cidade, that.cidade) &&
+                Objects.equals(estado, that.estado);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo, tipoLogradouro, nome, numero, complemento, bairro, cidade, estado, cepPrefixo, cepSufixo);
     }
 }

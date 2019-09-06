@@ -3,6 +3,7 @@ package br.com.asas.carrinhoDoCaminho.model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "item")
@@ -75,5 +76,35 @@ public class Item {
 
     public void setItensCarrinhos(List<ItemCarrinho> itensCarrinhos) {
         this.itensCarrinhos = itensCarrinhos;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "codigo=" + codigo +
+                ", produto=" + produto +
+                ", quantidade=" + quantidade +
+                ", valorUnitario=" + valorUnitario +
+                ", valorTotal=" + valorTotal +
+                ", itensCarrinhos=" + itensCarrinhos +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Objects.equals(codigo, item.codigo) &&
+                Objects.equals(produto, item.produto) &&
+                Objects.equals(quantidade, item.quantidade) &&
+                Objects.equals(valorUnitario, item.valorUnitario) &&
+                Objects.equals(valorTotal, item.valorTotal) &&
+                Objects.equals(itensCarrinhos, item.itensCarrinhos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo, produto, quantidade, valorUnitario, valorTotal, itensCarrinhos);
     }
 }
