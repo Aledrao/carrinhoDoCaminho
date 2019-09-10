@@ -22,12 +22,12 @@ public class DepartamentoController {
     @Autowired
     private DepartamentoService departamentoService;
 
-    @GetMapping(value = "listar")
-    public ResponseEntity<?> Listaepartamentos() {
+    @GetMapping(value = "listar-todos")
+    public ResponseEntity<?> listarTodos() {
         List<Departamento> departamentos = departamentoService.listaDepartamentos();
         log.info("Acessou  listar departamentos");
         if(departamentos == null || departamentos.isEmpty()) {
-            return ResponseEntity.ok(new DepartamentoVO(400, "Não há departamentos há departamentos cadastrados."));
+            return ResponseEntity.ok(new DepartamentoVO(400, "Não há departamentos departamentos cadastrados."));
         }
         return ResponseEntity.ok(new DepartamentoLIstVO(600, "Departamentos encontrados com sucesso.", departamentos));
     }
