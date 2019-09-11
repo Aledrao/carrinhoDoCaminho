@@ -13,9 +13,11 @@ public class FabricanteService {
     @Autowired
     private FabricanteRepository fabricanteRepository;
 
-    public Fabricante buscaFabricante(Integer codigo) {
+    public Fabricante buscaFabricantePorCodigo(Integer codigo) {
         return fabricanteRepository.findByCodigo(codigo);
     }
+
+    public Fabricante buscaFabricantePorNome(String nome) { return fabricanteRepository.findByNome(nome); }
 
     public List<Fabricante> listaFabricantes() {
         return fabricanteRepository.findAll();

@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface FabricanteRepository extends JpaRepository<Fabricante, Integer> {
 
     Fabricante findByCodigo(Integer codigo);
+
+    Fabricante findByNome(String nome);
 }
