@@ -4,6 +4,7 @@ import br.com.asas.carrinhoDoCaminho.VO.DepartamentoLIstVO;
 import br.com.asas.carrinhoDoCaminho.VO.DepartamentoVO;
 import br.com.asas.carrinhoDoCaminho.model.Departamento;
 import br.com.asas.carrinhoDoCaminho.service.DepartamentoService;
+import br.com.asas.carrinhoDoCaminho.utils.Constantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -27,13 +28,13 @@ public class DepartamentoController {
         List<Departamento> departamentos = departamentoService.listaDepartamentos();
         log.info("Acessou  listar departamentos");
         if(departamentos == null || departamentos.isEmpty()) {
-            return ResponseEntity.ok(new DepartamentoVO(400, "Não há departamentos departamentos cadastrados."));
+            return ResponseEntity.ok(new DepartamentoVO(Constantes.RESPOSTA_ERRO, Constantes.NAO_FORAM_ENCONTRADOS + Constantes.DEPARTAMENTO));
         }
-        return ResponseEntity.ok(new DepartamentoLIstVO(600, "Departamentos encontrados com sucesso.", departamentos));
+        return ResponseEntity.ok(new DepartamentoLIstVO(Constantes.RESPOSTA_ACERTO, Constantes.DEPARTAMENTO + Constantes.ENCONTRADOS_COM_SUCESSO, departamentos));
     }
 
-    @GetMapping(value = "buscar/{id}")
-    public Departamento buscaDepartamento(@PathVariable("id") Integer id) {
+    @GetMapping(value = "buscar/{codigo}")
+    public Departamento buscaDepartamento(@PathVariable("odigo") Integer id) {
         log.info("Busca departamento por Id - Id: " +id);
         return departamentoService.buscaDepartamento(id);
     }
@@ -42,20 +43,20 @@ public class DepartamentoController {
     public ResponseEntity<?> salvaDepartamento(@Valid @RequestBody Departamento departamento, Errors errors) {
         log.info("Acessando salvar departamento - Departamento: " +departamento.toString());
         if(errors.hasErrors()) {
-            return ResponseEntity.ok(new DepartamentoVO(400, errors.getFieldError().getDefaultMessage()));
+            return ResponseEntity.ok(new DepartamentoVO(Constantes.RESPOSTA_ERRO, errors.getFieldError().getDefaultMessage()));
         }
         Departamento departamentoSalvo = departamentoService.salvar(departamento);
-        return ResponseEntity.ok(new DepartamentoVO(600, "Deparmtamento salvo com sucesso.", departamento));
+        return ResponseEntity.ok(new DepartamentoVO(Constantes.RESPOSTA_ACERTO, Constantes.DEPARTAMENTO + Constantes.SALVOS_COM_SUCESSO, departamento));
     }
 
     @PutMapping(value = "atualizar")
     public ResponseEntity<?> atualizaDepartamento(@Valid @RequestBody Departamento departamento, Errors errors) {
         log.info("Acessou atualizar departamento - departamento: " +departamento.toString());
         if(errors.hasErrors()) {
-            return ResponseEntity.ok(new DepartamentoVO(400, errors.getFieldError().getDefaultMessage()));
+            return ResponseEntity.ok(new DepartamentoVO(Constantes.RESPOSTA_ERRO, errors.getFieldError().getDefaultMessage()));
         }
         Departamento departamentoAtualizado = departamentoService.atualiza(departamento);
-        return ResponseEntity.ok(new DepartamentoVO(600, "Departamento atualizado com sucesso.", departamento));
+        return ResponseEntity.ok(new DepartamentoVO(Constantes.RESPOSTA_ACERTO, Constantes.DEPARTAMENTO + Constantes.ATUALIZADOS_COM_SUCESSO, departamento));
     }
 
     @DeleteMapping(value = "excluir/{id}")
@@ -64,9 +65,9 @@ public class DepartamentoController {
         Departamento departamento = departamentoService.buscaDepartamento(codigoDepartamento);
         if(departamento != null) {
             departamentoService.excluir(codigoDepartamento);
-            return ResponseEntity.ok(new DepartamentoVO(600, "Departamento excluido com sucesso."));
+            return ResponseEntity.ok(new DepartamentoVO(Constantes.RESPOSTA_ACERTO, Constantes.DEPARTAMENTO + Constantes.EXCLUIDO_COM_SUCESSO));
         } else {
-            return ResponseEntity.ok(new DepartamentoVO(400, "O departamento a ser excluido não foi encontrado."));
+            return ResponseEntity.ok(new DepartamentoVO(Constantes.RESPOSTA_ERRO, Constantes.DEPARTAMENTO + Constantes.EXCLUIDO_NAO_ENCONTRADO));
         }
     }
 }

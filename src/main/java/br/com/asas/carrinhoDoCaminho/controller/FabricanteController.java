@@ -4,6 +4,7 @@ import br.com.asas.carrinhoDoCaminho.VO.FabricanteListVO;
 import br.com.asas.carrinhoDoCaminho.VO.FabricanteVO;
 import br.com.asas.carrinhoDoCaminho.model.Fabricante;
 import br.com.asas.carrinhoDoCaminho.service.FabricanteService;
+import br.com.asas.carrinhoDoCaminho.utils.Constantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -24,12 +25,12 @@ public class FabricanteController {
 
     @GetMapping("listar-todos")
     private ResponseEntity<?> listarTodos() {
-        log.info("Acessou listar todos os fabricantes.");
+        log.info("Acessando listar todos os fabricantes.");
         List<Fabricante> fabricantes = fabricanteService.listaFabricantes();
         if(fabricantes.isEmpty() || fabricantes == null) {
-            return ResponseEntity.ok(new FabricanteVO(400, "Não há fabricantes cadastrados."));
+            return ResponseEntity.ok(new FabricanteVO(400, Constantes.NAO_FORAM_ENCONTRADOS + Constantes.FABRICANTE));
         }
-        return ResponseEntity.ok(new FabricanteListVO(600, "fabricantes encontrados com sucesso", fabricantes));
+        return ResponseEntity.ok(new FabricanteListVO(600, Constantes.FABRICANTE + Constantes.ENCONTRADOS_COM_SUCESSO, fabricantes));
     }
 
     @GetMapping("buscar/{codigo}")
@@ -61,7 +62,7 @@ public class FabricanteController {
             return ResponseEntity.ok(new FabricanteVO(400, errors.getFieldError().getDefaultMessage()));
         }
         Fabricante fabricanteSalvo = fabricanteService.salvar(fabricante);
-        return ResponseEntity.ok(new FabricanteVO(600, "Fabricante salvo com sucesso.", fabricante));
+        return ResponseEntity.ok(new FabricanteVO(600, Constantes.FABRICANTE + Constantes.SALVOS_COM_SUCESSO, fabricante));
     }
 
     @GetMapping("atualizar")
@@ -71,7 +72,7 @@ public class FabricanteController {
             return ResponseEntity.ok(new FabricanteVO(400, errors.getFieldError().getDefaultMessage()));
         }
         Fabricante fabricanteAtualizado = fabricanteService.atualizar(fabricante);
-        return ResponseEntity.ok(new FabricanteVO(600, "Fabricante atualizado com sucesso.", fabricante));
+        return ResponseEntity.ok(new FabricanteVO(600, Constantes.FABRICANTE + Constantes.ATUALIZADOS_COM_SUCESSO, fabricante));
     }
 
     @GetMapping("excluir")
@@ -80,7 +81,7 @@ public class FabricanteController {
         Fabricante fabricante = fabricanteService.buscaFabricantePorCodigo(codigo);
         if(fabricante != null) {
             fabricanteService.deletar(codigo);
-            return ResponseEntity.ok(new FabricanteVO(600, "Fabricante excluido com sucesso.", fabricante));
+            return ResponseEntity.ok(new FabricanteVO(600, Constantes.FABRICANTE + Constantes.EXCLUIDO_COM_SUCESSO, fabricante));
         }
         return ResponseEntity.ok(new FabricanteVO(400, "Não foi possível encontrar o fabricante a ser excuido"));
     }
