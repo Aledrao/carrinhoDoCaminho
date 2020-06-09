@@ -4,12 +4,12 @@ import br.com.asas.carrinhoDoCaminho.model.Departamento;
 
 import java.util.List;
 
-public class DepartamentoLIstVO {
+public class DepartamentoListVO {
     private int codigo;
     private String mensagem;
     private List<Departamento> departamentos;
 
-    public DepartamentoLIstVO(int codigo, String mensagem, List<Departamento> departamentos) {
+    public DepartamentoListVO(int codigo, String mensagem, List<Departamento> departamentos) {
         this.codigo = codigo;
         this.mensagem = mensagem;
         this.departamentos = departamentos;

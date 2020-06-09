@@ -55,7 +55,7 @@ public class FabricanteController {
         return ResponseEntity.ok(new FabricanteVO(600, "Fabricante encontrado com sucesso.", fabricante));
     }
 
-    @GetMapping("salvar")
+    @PostMapping("salvar")
     private ResponseEntity<?> salvarFabricante(@Valid @RequestBody Fabricante fabricante, Errors errors) {
         log.info("Salvando Fabricante: " +fabricante.toString());
         if(errors.hasErrors()) {
@@ -65,7 +65,7 @@ public class FabricanteController {
         return ResponseEntity.ok(new FabricanteVO(600, Constantes.FABRICANTE + Constantes.SALVOS_COM_SUCESSO, fabricante));
     }
 
-    @GetMapping("atualizar")
+    @PutMapping("atualizar")
     private ResponseEntity<?> atualizarFabricante(@Valid @RequestBody Fabricante fabricante, Errors errors) {
         log.info("Atualizando fabricante: " +fabricante.toString());
         if (errors.hasErrors()) {
@@ -75,7 +75,7 @@ public class FabricanteController {
         return ResponseEntity.ok(new FabricanteVO(600, Constantes.FABRICANTE + Constantes.ATUALIZADOS_COM_SUCESSO, fabricante));
     }
 
-    @GetMapping("excluir")
+    @DeleteMapping("excluir")
     private ResponseEntity<?> excluirFabricante(@PathVariable("codigo") Integer codigo) {
         log.info("Excluindo fabricante por código: " + codigo);
         Fabricante fabricante = fabricanteService.buscaFabricantePorCodigo(codigo);

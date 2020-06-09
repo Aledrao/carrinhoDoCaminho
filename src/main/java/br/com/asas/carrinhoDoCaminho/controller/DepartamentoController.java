@@ -1,6 +1,6 @@
 package br.com.asas.carrinhoDoCaminho.controller;
 
-import br.com.asas.carrinhoDoCaminho.VO.DepartamentoLIstVO;
+import br.com.asas.carrinhoDoCaminho.VO.DepartamentoListVO;
 import br.com.asas.carrinhoDoCaminho.VO.DepartamentoVO;
 import br.com.asas.carrinhoDoCaminho.model.Departamento;
 import br.com.asas.carrinhoDoCaminho.service.DepartamentoService;
@@ -30,7 +30,7 @@ public class DepartamentoController {
         if(departamentos == null || departamentos.isEmpty()) {
             return ResponseEntity.ok(new DepartamentoVO(Constantes.RESPOSTA_ERRO, Constantes.NAO_FORAM_ENCONTRADOS + Constantes.DEPARTAMENTO));
         }
-        return ResponseEntity.ok(new DepartamentoLIstVO(Constantes.RESPOSTA_ACERTO, Constantes.DEPARTAMENTO + Constantes.ENCONTRADOS_COM_SUCESSO, departamentos));
+        return ResponseEntity.ok(new DepartamentoListVO(Constantes.RESPOSTA_ACERTO, Constantes.DEPARTAMENTO + Constantes.ENCONTRADOS_COM_SUCESSO, departamentos));
     }
 
     @GetMapping(value = "buscar/{codigo}")

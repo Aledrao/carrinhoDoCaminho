@@ -14,11 +14,15 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    public List<Produto> listaProdutos() {
+        return produtoRepository.findAll();
+    }
+
     public Produto buscarProdutoPorCodigo(Long codigo) {
         return produtoRepository.findByCodigo(codigo);
     }
 
-    public Produto buscarProdutoPorNome(String nome) {
+    public List<Produto> listaProdutoPorNome(String nome) {
         return produtoRepository.findByNome(nome);
     }
 
