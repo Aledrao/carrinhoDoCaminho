@@ -4,9 +4,7 @@ import br.com.asas.carrinhoDoCaminho.model.Produto;
 import br.com.asas.carrinhoDoCaminho.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,7 +21,7 @@ public class ProdutoController {
 
     @GetMapping("listar-todos")
     public ResponseEntity<?> listarTodos() {
-        LOG.info("Listar todos os produtos");
+        LOG.info("Listar todos os produtos.");
         List<Produto> produtos = produtoService.listaProdutos();
         if(produtos == null || produtos.isEmpty()) {
             return ResponseEntity.ok("Não há produtos cadastrados");
@@ -32,9 +30,9 @@ public class ProdutoController {
         }
     }
 
-    @GetMapping("listar-todos")
-    public ResponseEntity<?> buscaPorCodigo(Long codigo) {
-        LOG.info("Buscar produtos por código.");
+    @GetMapping("busca-por-codigo/{codigo}")
+    public ResponseEntity<?> buscaPorCodigo(@PathVariable Long codigo) {
+        LOG.info("Buscar produtos por código. " +codigo);
         Produto produto = produtoService.buscarProdutoPorCodigo(codigo);
         if(produto == null) {
             return ResponseEntity.ok("Não foi possível localizar produto pelo código informado.");
@@ -43,9 +41,9 @@ public class ProdutoController {
         }
     }
 
-    @GetMapping("lista-por-nome")
-    public ResponseEntity<?> buscaPorNome(String nome) {
-        LOG.info("Busca produto por nome.");
+    @GetMapping("lista-por-nome/{nome}")
+    public ResponseEntity<?> buscaPorNome(@PathVariable  String nome) {
+        LOG.info("Busca produto por nome. " +nome);
         List<Produto> produtos = produtoService.listaProdutoPorNome(nome);
         if(produtos.isEmpty()) {
             return ResponseEntity.ok(produtos);
@@ -54,9 +52,9 @@ public class ProdutoController {
         }
     }
 
-    @GetMapping("busca-por-codigo-barras")
-    public ResponseEntity<?> buscaPorCodigoBarras(Long codigoDeBarras) {
-        LOG.info("Busca produto por código de barras");
+    @GetMapping("busca-por-codigo-barras/{codigo-de-barras}")
+    public ResponseEntity<?> buscaPorCodigoBarras(@PathVariable Long codigoDeBarras) {
+        LOG.info("Busca produto por código de barras. " +codigoDeBarras);
         Produto produto = produtoService.buscarProdutoPorCodigoBarras(codigoDeBarras);
         if(produto == null) {
             return ResponseEntity.ok("Não foi possível localizar o produto pelo código de barras");
@@ -65,14 +63,35 @@ public class ProdutoController {
         }
     }
 
-    @GetMapping("lista-por-valor")
-    public ResponseEntity<?> listaPorValor(BigDecimal valor) {
-        LOG.info("Busca produto pelo valor");
+    @GetMapping("lista-por-valor/{valor}")
+    public ResponseEntity<?> listaPorValor(@PathVariable BigDecimal valor) {
+        LOG.info("Busca produto pelo valor. " + valor);
         List<Produto> produtos = produtoService.listaProdutoPorValor(valor);
         if(produtos.isEmpty()) {
             return ResponseEntity.ok("Não foi possível encontrar o produto pelo valor.");
         } else {
             return ResponseEntity.ok(produtos);
         }
+    }
+
+    @PostMapping("salvar")
+    public ResponseEntity<?> salvar(@RequestBody Produto produto) {
+        LOG.info("Salva produto. " +produto.toString());
+        Produto produtoSalvo = produtoService.salvarProduto(produto);
+        return ResponseEntity.ok(produto);
+    }
+
+    @PutMapping("atualizar")
+    public ResponseEntity<?> atualizar(@RequestBody Produto produto) {
+        LOG.info("Salva produto. " +produto.toString());
+        Produto produtoSalvo = produtoService.salvarProduto(produto);
+        return ResponseEntity.ok(produto);
+    }
+
+    @DeleteMapping("excluir")
+    public ResponseEntity<?> excluir(@PathVariable Long codigo) {
+        LOG.info("Excluir produto código. " +codigo);
+        produtoService.deletarProduto(codigo);
+        return ResponseEntity.ok("Produto excluido com sucesso.");
     }
 }
