@@ -1,6 +1,7 @@
 package br.com.asas.carrinhoDoCaminho.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -14,16 +15,19 @@ public class Produto {
     private Long codigo;
 
     @Column(name = "nome_produto", nullable = false)
+    @NotEmpty(message = "É necessário informar o nome do produto.")
     private String nome;
 
     @Column(name = "codigo_barras")
     private Long codigoBarras;
 
     @Column(name = "quantidade", nullable = false)
+    @NotEmpty(message = "É necessário informar a quantidade que o produto é vendido.")
     private double quantidade;
 
     @ManyToOne
     @JoinColumn(name = "cod_unidade_medida")
+    @NotEmpty(message = "É necessário informar a unidade de medida do produto")
     private UnidadeMedida unidadeMedida;
 
     @Column(name = "valor")
@@ -31,14 +35,17 @@ public class Produto {
 
     @ManyToOne
     @JoinColumn(name = "cod_fabricante")
+    @NotEmpty(message = "É necessário informar o fabricante.")
     private Fabricante fabricante;
 
     @ManyToOne
     @JoinColumn(name = "cod_tipo_produto")
+    @NotEmpty(message = "É necessário informar o tipo de produto.")
     private TipoProduto tipoProduto;// Ex: grãos, perfumaria, bebidas, matinais, frutas, legumes, xampu
 
     @ManyToOne
     @JoinColumn(name = "cod_departamento")
+    @NotEmpty(message = "Necessário informar o departamento do produto.")
     private Departamento departamento;
 
     public Long getCodigo() {

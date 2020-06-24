@@ -84,14 +84,31 @@ public class ProdutoController {
     @PutMapping("atualizar")
     public ResponseEntity<?> atualizar(@RequestBody Produto produto) {
         LOG.info("Salva produto. " +produto.toString());
-        Produto produtoSalvo = produtoService.salvarProduto(produto);
-        return ResponseEntity.ok(produto);
+        if(produtoLocalizado(produto.getCodigo())) {
+            Produto produtoSalvo = produtoService.salvarProduto(produto);
+            return ResponseEntity.ok(produto);
+        } else {
+            return ResponseEntity.ok("O produto informado não foi localizado, para ser atualizado.");
+        }
     }
 
     @DeleteMapping("excluir")
     public ResponseEntity<?> excluir(@PathVariable Long codigo) {
         LOG.info("Excluir produto código. " +codigo);
-        produtoService.deletarProduto(codigo);
-        return ResponseEntity.ok("Produto excluido com sucesso.");
+        if(produtoLocalizado(codigo)) {
+            produtoService.deletarProduto(codigo);
+            return ResponseEntity.ok("Produto excluido com sucesso.");
+        } else {
+            return ResponseEntity.ok("O produto informado não foi localizado, para ser excluido");
+        }
+    }
+
+    private boolean produtoLocalizado(Long codigo) {
+        LOG.info("Verificando a existência do produto");
+        Produto produto = produtoService.buscarProdutoPorCodigo(codigo);
+        if(produto == null) {
+            return false;
+        }
+        return true;
     }
 }
